@@ -1,0 +1,36 @@
+{
+  "name": "imageboard-2.0",
+  "version": "1.0.0",
+  "description": "Repository for the ImageBoard 2.0 project",
+  "scripts": {
+    "install-backend": "cd backend && npm install",
+    "install-frontend": "cd frontend && npm install",
+    "install-all": "run-p -r install-backend install-frontend",
+    "start-backend": "cd backend && npm start",
+    "start-frontend": "cd frontend && npm start",
+    "start": "run-p -r start-backend start-frontend",
+    "start-production-backend": "cd backend && npm run production",
+    "start-production-frontend": "cd frontend && npm run production",
+    "production": "run-p -r start-production-backend start-production-frontend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/souzajr/imageboard-2.0.git"
+  },
+  "keywords": [
+    "ImageBoard",
+    "Chan",
+    "React",
+    "NodeJS",
+    "MongoDB"
+  ],
+  "author": "Roberto Souza - https://github.com/souzajr",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/souzajr/imageboard-2.0/issues"
+  },
+  "homepage": "https://github.com/souzajr/imageboard-2.0#readme",
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}
