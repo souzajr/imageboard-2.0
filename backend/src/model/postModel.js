@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const PostSchema = new mongoose.Schema({
-  type: { type: Boolean, required: true },
+  mainPost: { type: Boolean, required: true },
   ip: { type: String, required: true },
   files: [
     {

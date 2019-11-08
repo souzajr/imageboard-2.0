@@ -11,26 +11,39 @@ module.exports = app => {
   const { existOrError } = app.src.api.validation;
 
   const store = async (req, res) => {
-    const { type, files, board } = req.body;
+    const { mainPost, files, board } = req.body;
     const { ip } = req;
 
-    if (typeof type !== 'boolean')
+    if (typeof mainPost !== 'boolean')
       return res.status(400).json('Something went wrong');
 
     try {
-      if (type === true) existOrError(files, 'You must select an image');
+      existOrError(board, 'Something went wrong');
+      const checkIfExists = await Board.findOne({ _id: board });
+      existOrError(checkIfExists, 'Something went wrong');
+      if (mainPost === true) existOrError(files, 'You must select an image');
       existOrError(ip, 'Something went wrong');
     } catch (msg) {
       return res.status(400).json(msg);
     }
 
-    const postId = await Post.create({
-      type,
+    const post = await Post.create({
+      mainPost,
       ip,
+      files,
       createdAt: moment().format('L - LTS'),
-    }).then(post => post._id);
+    });
 
-    Board.findOneAndUpdate({ board }, {});
+    await Board.updateOne(
+      { _id: board },
+      {
+        $push: {
+          posts: post._id,
+        },
+      }
+    );
+
+    res.status(200).json(post._id);
   };
 
   return {

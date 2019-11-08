@@ -24,7 +24,7 @@ module.exports = app => {
   }
 
   function tooSmall(value, msg) {
-    if (value.length < 4) throw msg;
+    if (value.length < 10) throw msg;
   }
 
   function tooBig(value, msg) {
