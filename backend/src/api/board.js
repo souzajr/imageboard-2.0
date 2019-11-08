@@ -84,24 +84,26 @@ module.exports = app => {
       .populate('posts.post')
       .lean();
 
-    const executeDelete = async id => {
-      const post = await Post.findOne({ _id: id });
+    if (getPosts.posts.length) {
+      const executeDelete = async id => {
+        const post = await Post.findOne({ _id: id });
 
-      if (post.files.length)
-        post.files.map(file => fs.unlinkSync(`./public/${file.name}`));
+        if (post.files.length)
+          post.files.map(file => fs.unlinkSync(`./public/${file.name}`));
 
-      try {
-        await Post.deleteOne({ _id: id });
-        Promise.resolve();
-      } catch (err) {
-        Promise.reject(err);
-      }
-    };
+        try {
+          await Post.deleteOne({ _id: id });
+          Promise.resolve();
+        } catch (err) {
+          Promise.reject(err);
+        }
+      };
 
-    const removePosts = async posts =>
-      Promise.all(posts.map(post => executeDelete(post._id)));
+      const removePosts = async posts =>
+        Promise.all(posts.map(post => executeDelete(post._id)));
 
-    await removePosts(getPosts.posts);
+      await removePosts(getPosts.posts);
+    }
 
     await Board.deleteOne({ _id: board });
 
